@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Image from 'next/image'
+import PlayerRow from '../components/PlayerRow'
 import styles from '../styles/Home.module.css'
 import { Stack, HStack, VStack, Box, StackDivider } from '@chakra-ui/react'
 // import { Link } from 'theme-ui';
@@ -17,13 +17,14 @@ export default function Home() {
       <main className={styles.main}>
       
       <a href="/api/auth/login">Login</a>
+      <PlayerRow/>
       <VStack
         divider={<StackDivider borderColor='gray.200' />}
         spacing={4}
         align='stretch'
       >
         <Box h='40px' bg='yellow.200'>
-          1
+          1 
         </Box>
         <Box h='40px' w='50vw' bg='tomato'>
           2
