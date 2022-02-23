@@ -2,8 +2,14 @@ import Head from 'next/head'
 import PlayerRow from '../components/PlayerRow'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default function Home() {
+  useEffect(()=>{
+    fetch("api/tempURL").
+    then (res =>{console.log(res)})
+  })
+
   return (
     <div className={styles.container}>
 
