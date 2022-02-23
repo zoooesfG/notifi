@@ -1,20 +1,25 @@
-import { Box, Heading } from "theme-ui"
+// import { Box, h2 } from "theme-ui"
 
 
+import { Stack, HStack, VStack, Box, StackDivider, Link, Flex, Spacer } from '@chakra-ui/react'
+// import { Button, h2 } from 'next-theme-ui'
 
 
-const PlayerRow = ({name, score}) => {
+export default function PlayerRow (){
 
     return (
-        <Box>
-            <Heading>
-                {score}
-            </Heading>
-            <Heading>
-                {name}
-            </Heading>
-        </Box>
+        <VStack
+        divider={<StackDivider borderColor='gray.200' />}
+        spacing={4}
+        align='stretch'
+        >
+        <Flex justify="space-between" h='40px' w="50vw" bg='pink.100'>
+            <h2>score</h2>
+            <h2>name</h2>
+            <Spacer />
+            <button>text</button>
+        </Flex>
+        </VStack>
     )
 }
 
-export default PlayerRow
