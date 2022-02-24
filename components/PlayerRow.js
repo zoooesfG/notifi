@@ -5,7 +5,7 @@ import { Stack, HStack, VStack, Box, StackDivider, Link, Flex, Spacer } from '@c
 // import { Button, h2 } from 'next-theme-ui'
 
 
-export default function PlayerRow (){
+const PlayerRow = ({name, score})=>{
 
     return (
         <VStack
@@ -14,8 +14,8 @@ export default function PlayerRow (){
         align='stretch'
         >
         <Flex justify="space-between" h='40px' w="50vw" bg='pink.100'>
-            <h2>score</h2>
-            <h2>name</h2>
+            <h2>{score}</h2>
+            <h2>{name}</h2>
             <Spacer />
             <button>text</button>
         </Flex>
@@ -23,3 +23,4 @@ export default function PlayerRow (){
     )
 }
 
+export default PlayerRow
