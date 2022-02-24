@@ -5,6 +5,19 @@ import Link from 'next/link';
 import React, { useEffect } from 'react';
 // import twilio from 'twilio';
 
+const accountSid = 'AC5f9691961d94930f319e05797d60cd52'; // Your Account SID from www.twilio.com/console
+const authToken = '18423e3d6cc5dfcff709214d70f1648e'; // Your Auth Token from www.twilio.com/console
+
+const twilio = require('twilio');
+const client = new twilio(accountSid, authToken);
+
+client.messages
+  .create({
+    body: 'Hello from Node',
+    to: '+16475378775', // Text this number
+    from: '+12163696199', // From a valid Twilio number
+  })
+  .then((message) => console.log(message.sid));
 
 
 export const getStaticProps = async () => {
@@ -16,6 +29,8 @@ export const getStaticProps = async () => {
   }
   
 }
+
+
 
 export default function Home({ users }) {
   console.log(users)
