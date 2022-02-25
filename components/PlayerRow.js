@@ -1,10 +1,12 @@
 // import { Box, h2 } from "theme-ui"
-
+// import twilio from 'twilio'
 
 import { Stack, HStack, VStack, Box, StackDivider, Link, Flex, Spacer, Button } from '@chakra-ui/react'
-// import { Button, h2 } from 'next-theme-ui'
 
 
+const handleClick = async () =>{
+    // TODO: send POST request to your sms endpoint w/ player id
+}
 
 const PlayerRow = ({id, rank, name, score})=>{
 
