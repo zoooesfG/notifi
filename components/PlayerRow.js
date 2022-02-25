@@ -4,12 +4,19 @@
 import { Stack, HStack, VStack, Box, StackDivider, Link, Flex, Spacer, Button } from '@chakra-ui/react'
 
 
-const handleClick = async () =>{
-    // TODO: send POST request to your sms endpoint w/ player id
-}
+
+
+
 
 const PlayerRow = ({id, rank, name, score})=>{
-
+    const sendText = async () =>{
+        // TODO: send POST request to your sms endpoint w/ player id
+        const res = await fetch('/api/sms', {
+            method:"POST",
+            body: JSON.stringify({userId: id})
+        })
+        const data =  await res.json()
+    }
     return (
         <VStack
         divider={<StackDivider borderColor='pink.200' />}
@@ -21,7 +28,7 @@ const PlayerRow = ({id, rank, name, score})=>{
             <h2>{name}</h2>
             <h2>{score}</h2>
             <Spacer />
-            <Button colorScheme='teal' size='sm'>Send Text</Button>
+            <Button colorScheme='teal' size='sm' onClick={sendText}>Send Text</Button>
         </Flex>
         <Spacer/>
         </VStack>

@@ -21,7 +21,7 @@ export default async function handler (req, res) {
 
     // TODO: Send message to the player
     const message = await client.messages.create({
-      body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
+      body: 'winner winner chicken dinner!!',
       from: '+12163696199',
       mediaUrl: ['https://c1.staticflickr.com/3/2899/14341091933_1e92e62d12_b.jpg'],
       to: '+16475378775'
