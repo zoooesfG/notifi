@@ -1,37 +1,36 @@
 // import { Box, h2 } from "theme-ui"
 // import twilio from 'twilio'
 
-import { Stack, HStack, VStack, Box, StackDivider, Link, Flex, Spacer, Button } from '@chakra-ui/react'
+import { Stack, HStack, VStack, Box, StackDivider, Link, Flex, Spacer, Button, StylesProvider } from '@chakra-ui/react'
+import styles from '../styles/Home.module.css'
 
 
 
 
 
-
-const PlayerRow = ({id, rank, name, score})=>{
+const PlayerRow = ({id, rank, name})=>{
     const sendText = async () =>{
+
+        console.log(id)
+
         // TODO: send POST request to your sms endpoint w/ player id
         const res = await fetch('/api/sms', {
             method:"POST",
             body: JSON.stringify({userId: id})
         })
-        const data =  await res.json()
+        // const player = await fetch(`https://scorebot-api-service-q3nu3.ondigitalocean.app/v1/players/${id}`)
+        // const data =  await res.json()
+        
     }
     return (
-        <VStack
-        divider={<StackDivider borderColor='pink.200' />}
-        spacing={4}
-        align='stretch'
-        >
-        <Flex justify="space-between" h='40px' w="50vw" bg='tomato' key={id}>
+        <div>
+        <section className={styles.row}>
             <h2>{rank}</h2>
             <h2>{name}</h2>
-            <h2>{score}</h2>
             <Spacer />
-            <Button colorScheme='teal' size='sm' onClick={sendText}>Send Text</Button>
-        </Flex>
-        <Spacer/>
-        </VStack>
+            <Button size='sm' onClick={sendText}>Send Text</Button>
+        </section>
+        </div>
     )
 }
 

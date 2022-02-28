@@ -15,18 +15,22 @@ export default async function handler (req, res) {
     const authToken = process.env.TWILIO_AUTH_TOKEN;
     const client = new twilio(accountSid, authToken);
 
+    // return console.log(player)
     // TODO: Get the player's phone number from scorebot
     // { "playerId": "12345" }
-    // const { playerId } = req.body
-
+    const { userId } = JSON.parse (req.body)
+    // console.log(req.body)
+    console.log(userId)
+    const playerRequest = await fetch(`https://scorebot-api-service-q3nu3.ondigitalocean.app/v1/players/${userId}`)
+    const playerData = await playerRequest.json()
+    console.log(playerData)
     // TODO: Send message to the player
     const message = await client.messages.create({
       body: 'winner winner chicken dinner!!',
       from: '+12163696199',
       mediaUrl: ['https://c1.staticflickr.com/3/2899/14341091933_1e92e62d12_b.jpg'],
-      to: '+16475378775'
+      to: playerData.data.phone
     })
-    
     return res.json({ message: "Success!" })
   } catch (error) {
     console.error(error)

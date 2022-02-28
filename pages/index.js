@@ -12,9 +12,10 @@ export const getStaticProps = async () => {
 
   const res = await fetch('https://scorebot-api-service-q3nu3.ondigitalocean.app/v1/leaderboards/G6u-FmMsI0Ds6P5x6Y5XM/entries?page=1&size=50');
   const data = await res.json();
+  // console.log(data)
 
   return{
-    props: {users: data.items}
+    props: {leaderboardData: data.items}
     
   }
   
@@ -22,8 +23,8 @@ export const getStaticProps = async () => {
 
 
 
-export default function Home({ users }) {
-  console.log(users)
+export default function Home({ leaderboardData }) {
+  console.log(leaderboardData)
 
   
   return (
@@ -40,15 +41,16 @@ export default function Home({ users }) {
       <Link href="/api/auth/login">Login</Link>
 
       {/* trying to map out the data from scorebot */}
-
-      {users.map(user => (
+      <div 
+        className={styles.box}>
+      {leaderboardData.map(entry => (
         <PlayerRow 
-          key= {user.id}
-          rank={user.rank}
-          name = {user.player.name}
-          score={user.score}
+          key= {entry.id}
+          rank={entry.rank}
+          name = {entry.player.name}
+          id = {entry.player.id}
         />
-))}
+))}</div>
 
       </main>
 

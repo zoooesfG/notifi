@@ -10,6 +10,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: radial-gradient(circle at 50% 50%, #add8e6, #4682b4);
 }
 
 .footer {
@@ -107,7 +108,34 @@
   height: 1em;
   margin-left: 0.5rem;
 }
-
+.box{
+  border-radius: 20px;
+  background: rgba(173,216,230,0.6);
+  box-shadow: inset 20px 20px 60px #93b8c4,
+              inset -20px -20px 60px #c7f8ff;
+  padding: 2em;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+  width: 60vw;
+  margin: 1em;
+  border-radius: 5px;
+  background: white;
+  box-shadow:  20px 20px 60px #93b8c4,
+              -20px -20px 60px #c7f8ff;
+  align-items: center;
+  justify-content:space-between;
+  color: #4682B4
+}
+.row button{
+  background:white;
+  border: 3px solid #93b8c4;
+  color: #93b8c4
+}
+.row h2{
+  margin-right:10px
+}
 @media (max-width: 600px) {
   .grid {
     width: 100%;
