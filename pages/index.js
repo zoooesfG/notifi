@@ -3,11 +3,8 @@ import PlayerRow from '../components/PlayerRow'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link';
 import React, { useEffect } from 'react';
-// import twilio from 'twilio';
-
-
-
-
+// Import the functions you need from the SDKs you need
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 export const getStaticProps = async () => {
 
   const res = await fetch('https://scorebot-api-service-q3nu3.ondigitalocean.app/v1/leaderboards/G6u-FmMsI0Ds6P5x6Y5XM/entries?page=1&size=50');
@@ -23,8 +20,7 @@ export const getStaticProps = async () => {
 
 
 
-export default function Home({ leaderboardData }) {
-  console.log(leaderboardData)
+export default withPageAuthRequired(function Home({ leaderboardData }) {
 
   
   return (
@@ -38,11 +34,12 @@ export default function Home({ leaderboardData }) {
 
       <main className={styles.main}>
       
-      <Link href="/api/auth/login">Login</Link>
+      <Link className={styles.logout} href="/api/auth/logout">Logout</Link>
 
       {/* trying to map out the data from scorebot */}
       <div 
         className={styles.box}>
+          <h1>Leaderboard Results</h1>
       {leaderboardData.map(entry => (
         <PlayerRow 
           key= {entry.id}
@@ -60,4 +57,4 @@ export default function Home({ leaderboardData }) {
   )
   
 }
-
+)
