@@ -1,38 +1,19 @@
 // import { Box, h2 } from "theme-ui"
 // import twilio from 'twilio'
 
-import { Stack, HStack, VStack, Box, StackDivider, Link, Flex, Spacer, Button, StylesProvider } from '@chakra-ui/react'
-import styles from '../styles/Home.module.css'
+import { Spacer } from '@chakra-ui/react'
+// import styles from '../styles/Home.module.css'
 import { useState } from 'react'
-
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-// queries
-// const q = query(colRef, where("name", "==", "Zoe F"), orderBy('createdAt'))
-// realtime collection data
-// onSnapshot(q, (snapshot) => {
-//     let leaderboard = []
-//     snapshot.docs.forEach(doc => {
-//         leaderboard.push({ ...doc.data(), id: doc.id })
-//         })
-//         console.log(leaderboard)
-//     })
-
-
-
+import { Button, Box, Heading } from 'theme-ui'
 
 const PlayerRow = ({id, rank, name})=>{
+    
 
-    const [isSending, setSending] = useState(false)
+    const [isSent, setSent] = useState(false)
 
     const sendText = async () =>{
 
-        setSending(true)
+        setSent (true)
         console.log(id)
 
         // TODO: send POST request to your sms endpoint w/ player id
@@ -41,28 +22,47 @@ const PlayerRow = ({id, rank, name})=>{
             body: JSON.stringify({userId: id})
         })
 
-        setSending(false)
-        
+        setSent(false)
+        let text = document.getElementsByClassName('.text')
+        text.textContent = "sent"
     }
 
     
 
     return (
-        <div>
-        <section className={styles.row}>
-            <h2>{rank}</h2>
-            <h2>{name}</h2>
-            <Spacer />
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '60vw',
+            margin: '1em',
+            borderRadius: '5px',
+            background: '#f4fcfe',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            color: '#4682B4',
+            border: '#00a3ff solid 2px',
+            padding: '0.25em 1em'
+        }}>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'row',
+            }}>
+                <Heading as="h2" sx={{marginRight:"1em"}}>{rank}</Heading>
+                <Heading as="h2">{name}</Heading>
+            </Box>
             <Button 
-                size='sm' 
+                sx={{
+                    backgroundColor: ! isSent ? "#b1f3fe" :"#00a3ff",
+                    border: "1px solid #00a3ff",
+                    color: ! isSent ? "#00a3ff" : "white",
+                    alignSelf:"flex-end"
+                }}
                 onClick={sendText} 
-                className={styles.text}
-                disabled={isSending}
+                disabled={isSent}
             >
                 Send Text
             </Button>
-        </section>
-        </div>
+        </Box>
     )
 }
 

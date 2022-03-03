@@ -1,21 +1,26 @@
 import Head from 'next/head'
 import PlayerRow from '../components/PlayerRow'
-import styles from '../styles/Home.module.css'
-import Link from 'next/link';
 import React, { useEffect } from 'react';
-// Import the functions you need from the SDKs you need
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-export const getStaticProps = async () => {
+// import { initializeApp } from "firebase/app";
+// import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { Box, Link, Heading } from 'theme-ui';
 
+
+export const getStaticProps = async () => {
+  //pull Scorebot info
   const res = await fetch('https://scorebot-api-service-q3nu3.ondigitalocean.app/v1/leaderboards/G6u-FmMsI0Ds6P5x6Y5XM/entries?page=1&size=50');
   const data = await res.json();
-  // console.log(data)
-
+//   const firebaseRes = await fetch('/api/sms', {
+//     method:"GET",
+    
+// })
+  // return Scorebot data
   return{
     props: {leaderboardData: data.items}
     
   }
-  
+
 }
 
 
@@ -24,7 +29,7 @@ export default withPageAuthRequired(function Home({ leaderboardData }) {
 
   
   return (
-    <div className={styles.container}>
+    <Box>
 
       <Head>
         <title>Notifi</title>
@@ -32,14 +37,35 @@ export default withPageAuthRequired(function Home({ leaderboardData }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <Box sx={{
+          minHeight: "100vh",
+          padding: "4rem 0",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundImage: "url(/img/blueWave.PNG)"
+      }}>
       
-      <Link className={styles.logout} href="/api/auth/logout">Logout</Link>
+      <Link href="/api/auth/logout" sx={{
+        color: "white !important",
+        textAlign: "right",
+        width:"70vw",
+        fontFamily:"Roboto"
+      }}>Logout</Link>
 
-      {/* trying to map out the data from scorebot */}
-      <div 
-        className={styles.box}>
-          <h1>Leaderboard Results</h1>
+      <Box sx={{
+          fontFamily: "Roboto",
+          fontWeight: "bold",
+          backgroundColor:"rgba(177, 243, 254, 0.8)",
+          borderRadius:"20px",
+          padding: "2em",
+          }}>
+          <Heading as="h1" sx={{
+            textAlign: "center",
+            fontSize: "3em",
+            fontWeight: "200",
+          }}>Leaderboard Results</Heading>
       {leaderboardData.map(entry => (
         <PlayerRow 
           key= {entry.id}
@@ -47,12 +73,12 @@ export default withPageAuthRequired(function Home({ leaderboardData }) {
           name = {entry.player.name}
           id = {entry.player.id}
         />
-))}</div>
+))}</Box>
 
-      </main>
+      </Box>
 
       
-    </div>
+    </Box>
     
   )
   

@@ -3,12 +3,7 @@
 // and set the environment variables. See http://twil.io/secure
 import twilio from "twilio"
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, onSnapshot,
-    addDoc, deleteDoc, doc,
-    query, where,
-    setDoc,
-    orderBy, serverTimestamp,
-    updateDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
 
     const firebaseConfig = {
@@ -25,17 +20,25 @@ import { getFirestore, collection, onSnapshot,
     initializeApp(firebaseConfig);
     const db = getFirestore();
 
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// running through all of the functions
 export default async function handler (req, res) {
     if (req.method === "POST") {
       const { userId } = JSON.parse (req.body)
+
+      const firestoreCheck = await checkFirestore(userId)
       const twilioResp = await sendTwilio(userId)
+
       // todo: check on the twilioResp and decide whether to continue onto firestore stuff 
       const firestoreResp = await updateFirestore(userId)
+
       // return a thing to the client
       res.status(200).json({status: "i did the thing!"})
     }
     else if (req.method ==="GET"){
-      const resp = await getFirestoreDocs()
+      // const resp = await getFirestoreDocs()
       // fetch firestore info (do that in a new function below)
     }
     else{
@@ -43,21 +46,35 @@ export default async function handler (req, res) {
     }
 }
 
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//checking firestore to see if the user already exists
+async function checkFirestore(userId){
+    const docRef = doc(db, "leaderboard", userId);
+    const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("already sent");
+    exit()
+  } else {
+    console.log("No such document!");
+  }
+  }
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//sending the msg
 async function sendTwilio(userId){
   try {
     const accountSid = process.env.TWILIO_ACCT_SID;
     const authToken = process.env.TWILIO_AUTH_TOKEN;
     const client = new twilio(accountSid, authToken);
 
-    // return console.log(player)
-    // TODO: Get the player's phone number from scorebot
-    // { "playerId": "12345" }
-    // console.log(req.body)
-    // console.log(userId)
+    
     const playerRequest = await fetch(`https://scorebot-api-service-q3nu3.ondigitalocean.app/v1/players/${userId}`)
     const playerData = await playerRequest.json()
-    // console.log(playerData)
-    // TODO: Send message to the player
+    
+    //Send message to the player
     const message = await client.messages.create({
       body: 'winner winner chicken dinner!!',
       from: '+12163696199',
@@ -72,6 +89,9 @@ async function sendTwilio(userId){
   }
 }
 
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//updating the firestore database
 async function updateFirestore(userId){
 
     //FIREBASE UPDATEY STUFF
@@ -86,7 +106,7 @@ async function updateFirestore(userId){
     return {status: "sent! probably!"}
 }
 
-async function getFirestoreDocs(){
-  const snapshot = await getDocs(doc(db, "leaderboard"))
-  console.log(snapshot.data())
-}
+// async function getFirestoreDocs(){
+//   const snapshot = await getDocs(doc(db, "leaderboard"))
+//   console.log(snapshot.data())
+// }
