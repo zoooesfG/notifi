@@ -1,19 +1,18 @@
 // import { Box, h2 } from "theme-ui"
-// import twilio from 'twilio'
-
 import { Spacer } from '@chakra-ui/react'
-// import styles from '../styles/Home.module.css'
 import { useState } from 'react'
-import { Button, Box, Heading } from 'theme-ui'
-
+import { Button, Box, Heading, Text, Spinner} from 'theme-ui'
 const PlayerRow = ({id, rank, name})=>{
     
-
+    const [isStart, setStart] = useState(true)
+    const [isSending, setSending] = useState(false)
     const [isSent, setSent] = useState(false)
 
+    
     const sendText = async () =>{
-
-        setSent (true)
+        // checkFirestore()
+        setStart(false)
+        setSending (true)
         console.log(id)
 
         // TODO: send POST request to your sms endpoint w/ player id
@@ -22,9 +21,8 @@ const PlayerRow = ({id, rank, name})=>{
             body: JSON.stringify({userId: id})
         })
 
-        setSent(false)
-        let text = document.getElementsByClassName('.text')
-        text.textContent = "sent"
+        setSending(false)
+        setSent(true)
     }
 
     
@@ -54,13 +52,25 @@ const PlayerRow = ({id, rank, name})=>{
                 sx={{
                     backgroundColor: ! isSent ? "#b1f3fe" :"#00a3ff",
                     border: "1px solid #00a3ff",
-                    color: ! isSent ? "#00a3ff" : "white",
+                    color: ! isSent? "#00a3ff" : "white",
                     alignSelf:"flex-end"
+
                 }}
                 onClick={sendText} 
-                disabled={isSent}
-            >
-                Send Text
+                disabled={isSending || isSent}
+            >{isStart
+                ?<Box>Send</Box>
+                :<Box>
+                {isSending
+                    ? <Box><Spinner variant="styles.spinner"/></Box>
+                    : <Box>
+                        {isSent
+                            ?<Text>Sent</Text>
+                            :<Text>Try Again</Text>
+                        }
+                        </Box>
+                    }</Box>
+                }
             </Button>
         </Box>
     )

@@ -49,7 +49,7 @@ export default async function handler (req, res) {
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //checking firestore to see if the user already exists
-async function checkFirestore(userId){
+export async function checkFirestore(userId){
     const docRef = doc(db, "leaderboard", userId);
     const docSnap = await getDoc(docRef);
 

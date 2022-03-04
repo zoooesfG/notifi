@@ -2,19 +2,21 @@ import Head from 'next/head'
 import PlayerRow from '../components/PlayerRow'
 import React, { useEffect } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-// import { initializeApp } from "firebase/app";
-// import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { Box, Link, Heading } from 'theme-ui';
-
+import { Box, Link, Heading, Image } from 'theme-ui';
 
 export const getStaticProps = async () => {
   //pull Scorebot info
   const res = await fetch('https://scorebot-api-service-q3nu3.ondigitalocean.app/v1/leaderboards/G6u-FmMsI0Ds6P5x6Y5XM/entries?page=1&size=50');
   const data = await res.json();
-//   const firebaseRes = await fetch('/api/sms', {
-//     method:"GET",
-    
-// })
+
+  // trying and failing to get firestore to do a thing
+  // const req = await fetch('/api/sms',
+  // {
+  //   method:"GET",
+  //   body:checkFirestore()
+  // })
+
+
   // return Scorebot data
   return{
     props: {leaderboardData: data.items}
@@ -44,7 +46,8 @@ export default withPageAuthRequired(function Home({ leaderboardData }) {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          backgroundImage: "url(/img/blueWave.PNG)"
+          backgroundColor:"#98e2ff",
+          backgroundImage: "url(/img/plane.png)"
       }}>
       
       <Link href="/api/auth/logout" sx={{
@@ -54,18 +57,15 @@ export default withPageAuthRequired(function Home({ leaderboardData }) {
         fontFamily:"Roboto"
       }}>Logout</Link>
 
+          <Image src="./img/leaderboard.png" alt="Leaderboard" sx={{marginBottom:"3em"}}/>
       <Box sx={{
           fontFamily: "Roboto",
           fontWeight: "bold",
-          backgroundColor:"rgba(177, 243, 254, 0.8)",
-          borderRadius:"20px",
+          background: "#98e2ff",
+          boxShadow:  "11px 11px 22px #93dbf7, -11px -11px 22px #9de9ff",
           padding: "2em",
+          borderRadius:"10px"
           }}>
-          <Heading as="h1" sx={{
-            textAlign: "center",
-            fontSize: "3em",
-            fontWeight: "200",
-          }}>Leaderboard Results</Heading>
       {leaderboardData.map(entry => (
         <PlayerRow 
           key= {entry.id}

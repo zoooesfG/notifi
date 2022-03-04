@@ -25,6 +25,9 @@ export default {
       }
     },
     styles: {
+      spinner: {
+        size:20
+      },
       root: {
         body: {
           margin: 0,
