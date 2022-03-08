@@ -1,14 +1,12 @@
 // import { Box, h2 } from "theme-ui"
 import { Spacer } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, Box, Heading, Text, Spinner} from 'theme-ui'
-const PlayerRow = ({id, rank, name})=>{
+const PlayerRow = ({id, rank, name, sent})=>{
     
-    const [isStart, setStart] = useState(true)
     const [isSending, setSending] = useState(false)
-    const [isSent, setSent] = useState(false)
+    const [isSent, setSent] = useState(sent)
 
-    
     const sendText = async () =>{
         // checkFirestore()
         setStart(false)
@@ -37,8 +35,8 @@ const PlayerRow = ({id, rank, name})=>{
             background: '#f4fcfe',
             alignItems: 'center',
             justifyContent: 'space-between',
-            color: '#4682B4',
-            border: '#00a3ff solid 2px',
+            color: '#764ea7',
+            border: '#764ea7 solid 2px',
             padding: '0.25em 1em'
         }}>
             <Box sx={{
@@ -50,27 +48,30 @@ const PlayerRow = ({id, rank, name})=>{
             </Box>
             <Button 
                 sx={{
-                    backgroundColor: ! isSent ? "#b1f3fe" :"#00a3ff",
-                    border: "1px solid #00a3ff",
-                    color: ! isSent? "#00a3ff" : "white",
-                    alignSelf:"flex-end"
-
+                    backgroundColor: ! isSent ? "#98e2ff" :"#764ea7",
+                    border: "1.5px solid #764ea7",
+                    color: ! isSent? "#764ea7" : "white",
+                    alignSelf:"flex-end",
+                    width: "5em",
+                    height:"2.5em",
+                    "&:hover":{
+                        backgroundColor:! isSent ?"#ff9390" : "#764ea7",
+                        border:! isSent ?"5px dotted #e87791" : "1.5px solid #764ea7",
+                        color:! isSent ?"white" : "white",
+                        cursor:! isSent ?"pointer" : "no-drop" 
+                    }
                 }}
-                onClick={sendText} 
+                onClick={sendText}
                 disabled={isSending || isSent}
-            >{isStart
-                ?<Box>Send</Box>
-                :<Box>
-                {isSending
-                    ? <Box><Spinner variant="styles.spinner"/></Box>
-                    : <Box>
-                        {isSent
-                            ?<Text>Sent</Text>
-                            :<Text>Try Again</Text>
-                        }
-                        </Box>
-                    }</Box>
+            >
+                {isSending &&
+                    <Box><Spinner variant="styles.spinner"/></Box>
                 }
+                {isSent
+                    ?<Text>Sent!</Text>
+                    :<Text>Send</Text>
+                }
+
             </Button>
         </Box>
     )

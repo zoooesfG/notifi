@@ -3,7 +3,7 @@
 // and set the environment variables. See http://twil.io/secure
 import twilio from "twilio"
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, getDocs, collection } from "firebase/firestore";
 
 
     const firebaseConfig = {
@@ -25,7 +25,7 @@ import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // running through all of the functions
 export default async function handler (req, res) {
-    if (req.method === "POST") {
+  if (req.method === "POST") {
       const { userId } = JSON.parse (req.body)
 
       const firestoreCheck = await checkFirestore(userId)
@@ -97,7 +97,8 @@ async function updateFirestore(userId){
     //FIREBASE UPDATEY STUFF
     const ref = setDoc(doc(db, "leaderboard", userId), {
       id: userId,
-      notified: new Date()
+      notified: new Date(),
+      textSent: true
     })
 
       console.log("hi there i'm doin a thing!")

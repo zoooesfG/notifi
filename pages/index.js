@@ -1,34 +1,25 @@
 import Head from 'next/head'
 import PlayerRow from '../components/PlayerRow'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { Box, Link, Heading, Image } from 'theme-ui';
 
-export const getStaticProps = async () => {
-  //pull Scorebot info
-  const res = await fetch('https://scorebot-api-service-q3nu3.ondigitalocean.app/v1/leaderboards/G6u-FmMsI0Ds6P5x6Y5XM/entries?page=1&size=50');
-  const data = await res.json();
+// export const getStaticProps = async () => {
+//   //pull Scorebot info
+//   const res = await fetch('https://scorebot-api-service-q3nu3.ondigitalocean.app/v1/leaderboards/G6u-FmMsI0Ds6P5x6Y5XM/entries?page=1&size=50');
+//   const data = await res.json();
 
-  // trying and failing to get firestore to do a thing
-  // const req = await fetch('/api/sms',
-  // {
-  //   method:"GET",
-  //   body:checkFirestore()
-  // })
-
-
-  // return Scorebot data
-  return{
-    props: {leaderboardData: data.items}
+//   // return Scorebot data
+//   return{
+//     props: {leaderboardData: data.items}
     
-  }
+//   }
 
-}
+// }
 
 
 
 export default withPageAuthRequired(function Home({ leaderboardData }) {
-
   
   return (
     <Box>
@@ -51,10 +42,14 @@ export default withPageAuthRequired(function Home({ leaderboardData }) {
       }}>
       
       <Link href="/api/auth/logout" sx={{
-        color: "white !important",
-        textAlign: "right",
-        width:"70vw",
-        fontFamily:"Roboto"
+        color: "white",
+        position: "absolute",
+        top:"1em",
+        right:"1em",
+        fontFamily:"Roboto",
+        "&:hover":{
+          color:"#764ea7"
+        }
       }}>Logout</Link>
 
           <Image src="./img/leaderboard.png" alt="Leaderboard" sx={{marginBottom:"3em"}}/>
@@ -67,11 +62,12 @@ export default withPageAuthRequired(function Home({ leaderboardData }) {
           borderRadius:"10px"
           }}>
       {leaderboardData.map(entry => (
-        <PlayerRow 
+        <PlayerRow
           key= {entry.id}
           rank={entry.rank}
           name = {entry.player.name}
           id = {entry.player.id}
+          sent = {entry.textSent}
         />
 ))}</Box>
 
